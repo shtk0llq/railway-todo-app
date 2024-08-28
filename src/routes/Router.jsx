@@ -19,10 +19,22 @@ export const Router = () => {
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/" element={auth ? <Home /> : <Navigate to="/signin" />} />
-        <Route path="/task/new" element={auth ? <NewTask /> : <Navigate to="/signin" />} />
-        <Route path="/list/new" element={auth ? <NewList /> : <Navigate to="/signin" />} />
-        <Route path="/lists/:listId/tasks/:taskId" element={auth ? <EditTask /> : <Navigate to="/signin" />} />
-        <Route path="/lists/:listId/edit" element={auth ? <EditList /> : <Navigate to="/signin" />} />
+        <Route
+          path="/task/new"
+          element={auth ? <NewTask /> : <Navigate to="/signin" />}
+        />
+        <Route
+          path="/list/new"
+          element={auth ? <NewList /> : <Navigate to="/signin" />}
+        />
+        <Route
+          path="/lists/:listId/tasks/:taskId"
+          element={auth ? <EditTask /> : <Navigate to="/signin" />}
+        />
+        <Route
+          path="/lists/:listId/edit"
+          element={auth ? <EditList /> : <Navigate to="/signin" />}
+        />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
