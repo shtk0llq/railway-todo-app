@@ -11,10 +11,12 @@ export const EditTask = () => {
   const { listId, taskId } = useParams();
   const [cookies] = useCookies();
   const [title, setTitle] = useState("");
+  const [limit, setLimit] = useState("");
   const [detail, setDetail] = useState("");
   const [isDone, setIsDone] = useState();
   const [errorMessage, setErrorMessage] = useState("");
   const handleTitleChange = (e) => setTitle(e.target.value);
+  const handleLimitChange = (e) => setLimit(e.target.value);
   const handleDetailChange = (e) => setDetail(e.target.value);
   const handleIsDoneChange = (e) => setIsDone(e.target.value === "done");
   const onUpdateTask = () => {
@@ -23,6 +25,7 @@ export const EditTask = () => {
       title: title,
       detail: detail,
       done: isDone,
+      limit: new Date(limit).toISOString(),
     };
 
     axios
@@ -67,6 +70,10 @@ export const EditTask = () => {
         setTitle(task.title);
         setDetail(task.detail);
         setIsDone(task.done);
+
+        const date = new Date(task.limit);
+        date.setHours(date.getHours() + 9);
+        setLimit(date.toISOString().slice(0, 16).replace('Z', ''));
       })
       .catch((err) => {
         setErrorMessage(`タスク情報の取得に失敗しました。${err}`);
@@ -87,6 +94,15 @@ export const EditTask = () => {
             onChange={handleTitleChange}
             className="edit-task-title"
             value={title}
+          />
+          <br />
+          <label>期限</label>
+          <br />
+          <input
+            type="datetime-local"
+            value={limit}
+            onChange={handleLimitChange}
+            className="edit-task-limit"
           />
           <br />
           <label>詳細</label>

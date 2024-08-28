@@ -63,6 +63,7 @@ export const Home = () => {
         setErrorMessage(`タスクの取得に失敗しました。${err}`);
       });
   };
+
   return (
     <div>
       <Header />
@@ -150,6 +151,32 @@ const Tasks = (props) => {
     );
   }
 
+  const calculateRemainingTime = (limitDate) => {
+    const now = new Date();
+    const limit = new Date(limitDate);
+    const timeDiff = limit - now;
+
+    // 残り時間が負の場合（期限切れ）
+    if (timeDiff < 0) {
+      return "期限切れ";
+    }
+
+    // ミリ秒を各単位に変換
+    const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor(
+      (timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
+    );
+    const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+
+    // 結果を文字列にフォーマット
+    let result = [];
+    if (days > 0) result.push(`${days}日`);
+    if (hours > 0) result.push(`${hours}時間`);
+    if (minutes > 0) result.push(`${minutes}分`);
+
+    return result.join(" ");
+  };
+
   return (
     <ul>
       {tasks
@@ -165,6 +192,13 @@ const Tasks = (props) => {
               {task.title}
               <br />
               {task.done ? "完了" : "未完了"}
+              <br />
+              期日：
+              {new Date(task.limit).toLocaleString("ja-JP", {
+                timeZone: "Asia/Tokyo",
+              })}
+              <br />
+              残り時間：{calculateRemainingTime(task.limit)}
             </Link>
           </li>
         ))}
