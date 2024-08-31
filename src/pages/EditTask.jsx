@@ -73,7 +73,7 @@ export const EditTask = () => {
 
         const date = new Date(task.limit);
         date.setHours(date.getHours() + 9);
-        setLimit(date.toISOString().slice(0, 16).replace('Z', ''));
+        setLimit(date.toISOString().slice(0, 16).replace("Z", ""));
       })
       .catch((err) => {
         setErrorMessage(`タスク情報の取得に失敗しました。${err}`);
